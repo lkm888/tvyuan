@@ -2,17 +2,8 @@
   "spider": "",
   "sites": [
     {
-      "key": "🦚360┃采集",
-      "name": "[1834KB/s|1211ms|稳] 🦚360┃采集",
-      "type": 1,
-      "api": "https://360zy.com/api.php/provide/vod?",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
       "key": "360资源",
-      "name": "[1823KB/s|753ms|稳] 360资源",
+      "name": "[1920KB/s|779ms|稳] 360资源",
       "type": 1,
       "api": "https://360zy.com/api.php/provide/vod",
       "searchable": 1,
@@ -20,35 +11,35 @@
       "filterable": 0
     },
     {
-      "key": "豪华资源",
-      "name": "[1841KB/s|395ms|稳] 豪华资源",
+      "key": "🦚360┃采集",
+      "name": "[1448KB/s|1132ms|稳] 🦚360┃采集",
       "type": 1,
-      "api": "https://hhzyapi.com/api.php/provide/vod",
+      "api": "https://360zy.com/api.php/provide/vod?",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍏新浪",
-      "name": "[1813KB/s|380ms|稳] 🍏新浪",
+      "key": "👖裤佬丨采集",
+      "name": "[4623KB/s|798ms|稳] 👖裤佬丨采集",
       "type": 1,
-      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
+      "api": "https://api.wsyzy.net/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍏魔都",
-      "name": "[1731KB/s|1088ms|稳] 🍏魔都",
-      "type": 1,
-      "api": "https://www.moduzy.com/api.php/provide/vod",
+      "key": "金鹰影视",
+      "name": "[2708KB/s|2588ms|稳] 金鹰影视",
+      "type": 0,
+      "api": "https://jyzyapi.com/provide/vod/from/jinyingm3u8/at/xml/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "💥┃火狐2K┃有广",
-      "name": "[1725KB/s|369ms|稳] 💥┃火狐2K┃有广",
+      "name": "[2551KB/s|661ms|稳] 💥┃火狐2K┃有广",
       "type": 1,
       "api": "https://hhzyapi.com/api.php/provide/vod/",
       "searchable": 1,
@@ -56,26 +47,17 @@
       "filterable": 0
     },
     {
-      "key": "魔都资源",
-      "name": "[1614KB/s|1065ms|稳] 魔都资源",
+      "key": "豪华资源",
+      "name": "[2526KB/s|1974ms|稳] 豪华资源",
       "type": 1,
-      "api": "https://www.mdzyapi.com/api.php/provide/vod/?ac=list",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "鸡坤 | 采集",
-      "name": "[1604KB/s|910ms|稳] 鸡坤 | 采集",
-      "type": 1,
-      "api": "https://jkunzyapi.com/api.php/provide/vod/",
+      "api": "https://hhzyapi.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "🍏火狐",
-      "name": "[1586KB/s|2659ms|稳] 🍏火狐",
+      "name": "[2481KB/s|658ms|稳] 🍏火狐",
       "type": 1,
       "api": "https://hhzyapi.com/api.php/provide/vod/at/json",
       "searchable": 1,
@@ -84,9 +66,27 @@
     },
     {
       "key": "🍏速播",
-      "name": "[1517KB/s|362ms|稳] 🍏速播",
+      "name": "[2226KB/s|290ms|稳] 🍏速播",
       "type": 1,
       "api": "https://subocaiji.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "新浪资源",
+      "name": "[2200KB/s|1895ms|稳] 新浪资源",
+      "type": 0,
+      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/at/xml/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "烂大街",
+      "name": "[2061KB/s|3829ms|稳] 烂大街",
+      "type": 1,
+      "api": "https://www.huyaapi.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
