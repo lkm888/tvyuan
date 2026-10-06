@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-TVBox 聚合源自动更新（多线程并发优化版）
+TVBox 聚合源自动更新（支持色情内容智能分流）
+产物：
+  - t1.json: 精选健康极速版（前10）
+  - t2.json: 全量健康版
+  - t3.json: 多仓版
+  - t4.json: 成人/色情独立专属版
 """
 import json, sys, re, subprocess, os, time
 import urllib.parse
@@ -8,14 +13,40 @@ from urllib.parse import urljoin, urlparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 WORK_DIR = os.path.dirname(os.path.abspath(__file__))
-CF_PROXY = os.environ.get("CF_PROXY", "")  # Cloudflare Worker 代理地址
+CF_PROXY = os.environ.get("CF_PROXY", "")
 
-def curl(url, timeout=10, via_proxy=False):
+# ── 成人/敏感内容特征词库 ──
+ADULT_KEYWORDS = [
+    "成人", "伦理", "福利", "情色", "色情", "三级", "无码", "有码", 
+    "番号", "女优", "自拍", "偷拍", "麻豆", "探花", "乱伦", "激情", 
+    "色色", "黄片", "性爱", "春水", "蜜桃", "色猫", "AV", "jav", 
+    "hentai", "pornhub", "xvideos", "madou", "r18", "18禁", "撸班",
+    "91", "丝袜", "美腿", "诱惑"
+]
+
+def is_adult(site_or_url):
+    """智能判定是否为成人站点"""
+    if isinstance(site_or_url, dict):
+        text = f"{site_or_url.get('name', '')} {site_or_url.get('key', '')} {site_or_url.get('api', '')}"
+    else:
+        text = str(site_or_url)
+    
+    # 1. 中文及拼音特征词匹配
+    for kw in ADULT_KEYWORDS:
+        if kw.lower() in text.lower():
+            return True
+            
+    # 2. 域名/参数正则边界匹配 (防止像 David, Have 等正常英文词被误伤)
+    if re.search(r'(?i)(?:\b|_|-)(av|adult|sex|xxx|r18|fuli|18\+)(?:\b|_|-|\.|\d)', text):
+        return True
+    return False
+
+def curl(url, timeout=3, max_time=5, via_proxy=False):
     actual_url = f"{CF_PROXY}?u={urllib.parse.quote(url, safe='')}" if (via_proxy and CF_PROXY) else url
     try:
         r = subprocess.run(["curl", "-s", "-L", "--connect-timeout", str(timeout),
-                           "--max-time", str(timeout * 2), "-A", "Mozilla/5.0", actual_url],
-                          capture_output=True, timeout=timeout * 2 + 5)
+                           "--max-time", str(max_time), "-A", "Mozilla/5.0", actual_url],
+                          capture_output=True, timeout=max_time + 2)
         return r.stdout.decode("utf-8", errors="replace")
     except Exception:
         return ""
@@ -48,7 +79,6 @@ def resolve_url(base, path):
     return urljoin(base, path)
 
 def extract_m3u8(t):
-    # 修复：支持匹配带参数的 M3U8（如 .m3u8?token=xxx）
     return re.findall(r'(https?://[^\s"\'<>#\$]+?\.m3u8(?:\?[^\s"\'<>#\$]*)?)', t)
 
 def get_segments(media, media_url):
@@ -65,140 +95,130 @@ def build_url(base, params):
     return base.rstrip("/") + ("&" if "?" in base else "?") + params
 
 def test_source_latency(item):
-    """测试单个源的延迟"""
     name, url = item
     try:
         t0 = time.time()
         r = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}",
-                           "--connect-timeout", "5", "--max-time", "10",
+                           "--connect-timeout", "3", "--max-time", "4",
                            "-L", "-A", "Mozilla/5.0", url],
-                          capture_output=True, timeout=12)
+                          capture_output=True, timeout=5)
         code = r.stdout.decode().strip()
         lat = int((time.time() - t0) * 1000) if code.startswith(("2", "3")) else 99999
     except Exception:
         lat = 99999
     return (name, url, lat)
 
-def test_play_speed(api, stype, use_proxy=False):
-    """真实切片测速"""
+def test_play_speed(api, stype):
     base = re.sub(r'[?&]ac=list.*', '', api.rstrip("/"))
-    body = curl(build_url(base, "ac=list"), 10, via_proxy=use_proxy)
-    if not body or len(body) < 50: return 0, 0, "列表失败"
+    body = curl(build_url(base, "ac=list"), timeout=3, max_time=4)
+    if not body or len(body) < 50: return 0, 0, "失败"
 
     vids = []
     if stype == 0:
-        vids = re.findall(r'<id>(\d+)</id>', body)[:2]
+        vids = re.findall(r'<id>(\d+)</id>', body)[:1]
     else:
         try:
             j = json.loads(body, strict=False)
-            vids = [str(v["vod_id"]) for v in (j.get("list") or [])[:2]]
+            vids = [str(v["vod_id"]) for v in (j.get("list") or [])[:1]]
         except Exception:
-            return 0, 0, "解析失败"
-    if not vids: return 0, 0, "无ID"
+            return 0, 0, "失败"
+    if not vids: return 0, 0, "失败"
 
-    for vid in vids:
-        detail = curl(build_url(base, f"ac=detail&ids={vid}"), 10, via_proxy=use_proxy)
-        if not detail: continue
-        m3u8s = []
-        if stype == 0:
-            m3u8s = extract_m3u8(detail)
-        else:
-            try:
-                dj = json.loads(detail, strict=False)
-                for v in (dj.get("list") or []):
-                    m3u8s.extend(extract_m3u8(v.get("vod_play_url", "")))
-            except Exception:
-                continue
-        if not m3u8s: continue
+    vid = vids[0]
+    detail = curl(build_url(base, f"ac=detail&ids={vid}"), timeout=3, max_time=4)
+    if not detail: return 0, 0, "失败"
 
-        for play in m3u8s[:2]:
-            t0 = time.time()
-            master = curl(play, 10, via_proxy=use_proxy)
-            ttfb = int((time.time() - t0) * 1000)
-            if not master: continue
+    m3u8s = []
+    if stype == 0:
+        m3u8s = extract_m3u8(detail)
+    else:
+        try:
+            dj = json.loads(detail, strict=False)
+            for v in (dj.get("list") or []):
+                m3u8s.extend(extract_m3u8(v.get("vod_play_url", "")))
+        except Exception:
+            pass
+    if not m3u8s: return 0, 0, "失败"
 
-            media_url = None
-            if "#EXT-X-STREAM-INF" in master:
-                for i, line in enumerate(master.strip().split("\n")):
-                    if "STREAM-INF" in line:
-                        sub = master.strip().split("\n")[i+1].strip() if i+1 < len(master.strip().split("\n")) else ""
-                        if sub and not sub.startswith("#"):
-                            media_url = resolve_url(play, sub); break
-            elif "#EXTINF" in master:
-                media_url = play
-            if not media_url: continue
+    play = m3u8s[0]
+    t0 = time.time()
+    master = curl(play, timeout=3, max_time=4)
+    ttfb = int((time.time() - t0) * 1000)
+    if not master: return 0, 0, "失败"
 
-            t1 = time.time()
-            media = curl(media_url, 10, via_proxy=use_proxy)
-            mms = int((time.time() - t1) * 1000)
-            if "#EXTINF" not in media: continue
-            segs = get_segments(media, media_url)
-            if not segs: continue
+    media_url = None
+    if "#EXT-X-STREAM-INF" in master:
+        for i, line in enumerate(master.strip().split("\n")):
+            if "STREAM-INF" in line:
+                lines = master.strip().split("\n")
+                sub = lines[i+1].strip() if i+1 < len(lines) else ""
+                if sub and not sub.startswith("#"):
+                    media_url = resolve_url(play, sub); break
+    elif "#EXTINF" in master:
+        media_url = play
+    if not media_url: return 0, 0, "失败"
 
-            tb, tt, ok = 0, 0, 0
-            for s in segs[:5]:
-                if ok >= 2: break
-                seg_url = f"{CF_PROXY}?u={urllib.parse.quote(s, safe='')}" if (use_proxy and CF_PROXY) else s
-                r = subprocess.run(["curl", "-s", "-o", "/dev/null",
-                                   "-w", "%{http_code},%{size_download},%{time_total}",
-                                   "--connect-timeout", "6", "--max-time", "12", seg_url],
-                                  capture_output=True, timeout=15)
-                parts = r.stdout.decode().strip().split(",")
-                code = parts[0] if parts else "000"
-                sz = int(float(parts[1])) if len(parts) > 1 and parts[1] else 0
-                dl = float(parts[2]) if len(parts) > 2 and parts[2] else 99
-                if code.startswith("2") and sz > 1000:
-                    tb += sz; tt += dl; ok += 1
-            if ok >= 2:
-                speed = int((tb / 1024) / tt) if tt > 0 else 0
-                return ttfb + mms, speed, "OK"
-    return 0, 0, "全部失败"
+    media = curl(media_url, timeout=3, max_time=4)
+    if "#EXTINF" not in media: return 0, 0, "失败"
+    segs = get_segments(media, media_url)
+    if not segs: return 0, 0, "失败"
 
-def probe_single_station(item):
-    """单个采集站探活与重试"""
+    tb, tt, ok = 0, 0, 0
+    for s in segs[:2]:
+        r = subprocess.run(["curl", "-s", "-o", "/dev/null",
+                           "-w", "%{http_code},%{size_download},%{time_total}",
+                           "--connect-timeout", "3", "--max-time", "4", s],
+                          capture_output=True, timeout=5)
+        parts = r.stdout.decode().strip().split(",")
+        code = parts[0] if parts else "000"
+        sz = int(float(parts[1])) if len(parts) > 1 and parts[1] else 0
+        dl = float(parts[2]) if len(parts) > 2 and parts[2] else 99
+        if code.startswith("2") and sz > 1000:
+            tb += sz; tt += dl; ok += 1
+            break
+
+    if ok >= 1 and tt > 0:
+        return ttfb, int((tb / 1024) / tt), "OK"
+    return 0, 0, "失败"
+
+def probe_task(item):
     api, (src_name, stype) = item
-    for attempt in range(2):  # 优化：重试降为2次，缩短无效等待
-        use_proxy = (attempt == 1 and CF_PROXY)
-        ttfb, speed, st = test_play_speed(api, stype, use_proxy=use_proxy)
-        if st == "OK":
-            return (ttfb, speed, api, stype)
-        if attempt < 1:
-            time.sleep(1)
+    ttfb, speed, st = test_play_speed(api, stype)
+    if st == "OK":
+        return (ttfb, speed, api, stype)
     return None
 
 def main():
     ts = time.strftime('%Y-%m-%d %H:%M:%S')
-    print(f"[{ts}] 开始更新...")
+    print(f"[{ts}] ⚡ 开始更新（含色情自动分流）...")
 
-    # 1. 获取源列表
-    html = curl("https://tvbox.clbug.com/user.php", 20)
+    # 1. 抓取源列表
+    html = curl("https://tvbox.clbug.com/user.php", timeout=5, max_time=8)
     src_urls = re.findall(r'data-url="([^"]+)"', html)
     src_names = re.findall(r'<td class="td-name">([^<]+)</td>', html)
     sources = [(n.strip(), u.strip().replace("&amp;", "&"))
                for n, u in zip(src_names, src_urls)
                if u.strip() and not u.strip().startswith("#")]
-    print(f"  源列表获取成功: {len(sources)} 个")
 
-    # 2. 多线程并发测源延迟
-    print("  开始并发测试源延迟...")
+    # 2. 并发测源延迟
     available = []
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=25) as executor:
         futures = [executor.submit(test_source_latency, s) for s in sources]
         for f in as_completed(futures):
             res = f.result()
-            if res[2] < 99999:
-                available.append(res)
+            if res[2] < 99999: available.append(res)
     available.sort(key=lambda x: x[2])
-    print(f"  可用源数量: {len(available)}")
+    print(f"  可用源数量: {len(available)} 个")
 
-    # 3. 抓取并合并站点
-    all_sites, all_lives, all_parses = [], [], []
+    # 3. 合并站点，并进行健康与成人分流
+    all_sites, adult_sites = [], []
+    all_lives, all_parses = [], []
     site_keys, live_keys, parse_keys = set(), set(), set()
     spider_jars = {}
     collect_sources = {}
 
     for name, url, lat in available:
-        data = parse_json(curl(url, 10))
+        data = parse_json(curl(url, timeout=3, max_time=5))
         if not data: continue
 
         spider = data.get("spider", "")
@@ -212,12 +232,17 @@ def main():
             site_keys.add(key)
             s["name"] = f"[{lat}ms|{name}] {s.get('name', key)}"
             s["_lat"] = lat
-            all_sites.append(s)
-            
-            st = s.get("type", -1)
-            api = s.get("api", "")
-            if st in (0, 1) and api.startswith("http") and api not in collect_sources:
-                collect_sources[api] = (name, st)
+
+            # ── 智能分类：识别成人站 ──
+            if is_adult(s):
+                adult_sites.append(s)
+            else:
+                all_sites.append(s)
+                # 只有健康站才进入测速队列
+                st = s.get("type", -1)
+                api = s.get("api", "")
+                if st in (0, 1) and api.startswith("http") and api not in collect_sources:
+                    collect_sources[api] = (name, st)
 
         for l in (data.get("lives") or []):
             u = l.get("url", "")
@@ -226,70 +251,56 @@ def main():
             u = p.get("url", "")
             if u and u not in parse_keys: parse_keys.add(u); all_parses.append(p)
 
-    # 4. 多线程并发进行播放测速
-    print(f"  并发测速: 测 {len(collect_sources)} 个采集站...")
+    print(f"  识别结果: 健康站点 {len(all_sites)} 个 | 成人站点 {len(adult_sites)} 个")
+
+    # 4. 真实播放测速（只测健康站）
+    PINNED_APIS = ["suoniapi.com", "360zy.com"]
+    target_items = []
+    for item in collect_sources.items():
+        if any(kw in item[0] for kw in PINNED_APIS):
+            target_items.insert(0, item)
+        else:
+            target_items.append(item)
+    target_items = target_items[:50]
+
     collect_results = []
-    with ThreadPoolExecutor(max_workers=8) as executor:
-        futures = [executor.submit(probe_single_station, item) for item in collect_sources.items()]
+    with ThreadPoolExecutor(max_workers=25) as executor:
+        futures = [executor.submit(probe_task, item) for item in target_items]
         for f in as_completed(futures):
             res = f.result()
-            if res:
-                collect_results.append(res)
-                sys.stdout.write(f"\r  已测出 {len(collect_results)} 个高速可用站")
-                sys.stdout.flush()
-    print()
+            if res: collect_results.append(res)
 
     collect_results.sort(key=lambda x: (-x[1], x[0]))
 
-    # 置顶指定优质源
-    PINNED_APIS = ["suoniapi.com", "360zy.com"]
+    # 置顶索尼与360
     pinned = [[] for _ in PINNED_APIS]
     rest = []
     for item in collect_results:
-        api = item[2]
         placed = False
         for i, kw in enumerate(PINNED_APIS):
-            if kw in api:
+            if kw in item[2]:
                 pinned[i].append(item); placed = True; break
         if not placed:
             rest.append(item)
     collect_results = [x for group in pinned for x in group] + rest
 
-    # 标记与全量版排序
-    speed_map = {api: (ttfb, speed) for ttfb, speed, api, _ in collect_results}
-    for s in all_sites:
-        api = s.get("api", "")
-        if api in speed_map:
-            s["_speed"] = speed_map[api][1]
-            s["_speed_ttfb"] = speed_map[api][0]
+    best_spider = max(spider_jars, key=spider_jars.get) if spider_jars else ""
 
-    all_sites.sort(key=lambda s: (0, -s.get("_speed", 0), s.get("_speed_ttfb", 99999), s.get("_lat", 99999))
-                   if s.get("type", -1) in (0, 1) else (1, 0, 0, s.get("_lat", 99999)))
-
-    pinned_sites = [[] for _ in PINNED_APIS]
-    other_collect, other_sites = [], []
-    for s in all_sites:
-        if s.get("type") not in (0, 1):
-            other_sites.append(s); continue
-        api = s.get("api", "")
-        placed = False
-        for i, kw in enumerate(PINNED_APIS):
-            if kw in api:
-                pinned_sites[i].append(s); placed = True; break
-        if not placed:
-            other_collect.append(s)
-
-    all_sites = [x for group in pinned_sites for x in group] + other_collect + other_sites
-    for s in all_sites:
+    # 清理内部辅助参数
+    for s in all_sites + adult_sites:
         s.pop("_lat", None); s.pop("_speed", None); s.pop("_speed_ttfb", None)
 
-    # 5. 生成 tvbox_full.json
-    best_spider = max(spider_jars, key=spider_jars.get) if spider_jars else ""
+    # ── 5. 生成 t2.json (全量健康版，无色情) ──
     full_json = {"spider": best_spider, "sites": all_sites, "lives": all_lives, "parses": all_parses}
     with open(os.path.join(WORK_DIR, "t2.json"), "w", encoding="utf-8") as f:
         json.dump(full_json, f, ensure_ascii=False, indent=2)
 
-    # 6. 生成 tvbox_multi.json
+    # ── 6. 生成 t4.json (成人独立版，色情内容单独存放在这里) ──
+    adult_json = {"spider": best_spider, "sites": adult_sites, "lives": [], "parses": all_parses}
+    with open(os.path.join(WORK_DIR, "t4.json"), "w", encoding="utf-8") as f:
+        json.dump(adult_json, f, ensure_ascii=False, indent=2)
+
+    # ── 7. 生成 t3.json (多仓版) ──
     pinned_repos = {collect_sources[api][0] for api in collect_sources for kw in PINNED_APIS if kw in api}
     pinned_avail = [x for x in available if x[0] in pinned_repos]
     other_avail = [x for x in available if x[0] not in pinned_repos]
@@ -298,7 +309,7 @@ def main():
     with open(os.path.join(WORK_DIR, "t3.json"), "w", encoding="utf-8") as f:
         json.dump(multi, f, ensure_ascii=False, indent=2)
 
-    # 7. 生成 tvbox.json (简洁版)
+    # ── 8. 生成 t1.json (精选健康极速版) ──
     SIMPLE_LIMIT = 10
     collect_sites = []
     for ttfb, speed, api, stype in collect_results[:SIMPLE_LIMIT]:
@@ -318,13 +329,13 @@ def main():
     with open(os.path.join(WORK_DIR, "t1.json"), "w", encoding="utf-8") as f:
         json.dump({"spider": "", "sites": collect_sites, "lives": [], "parses": []}, f, ensure_ascii=False, indent=2)
 
-    # 8. 保存 sources.txt
+    # 9. 保存 sources.txt
     with open(os.path.join(WORK_DIR, "sources.txt"), "w", encoding="utf-8") as f:
         f.write(f"# {ts}\n\n")
         for name, url, lat in available:
             f.write(f"[{lat}ms] {name}\n{url}\n\n")
 
-    print(f"\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] 成功生成所有源！")
+    print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] ⚡ 生成成功：t1/t2(纯净版)已净化，敏感内容已存入 t4.json！")
     return 0
 
 if __name__ == "__main__":
