@@ -286,7 +286,7 @@ def main():
     # 5. 生成 tvbox_full.json
     best_spider = max(spider_jars, key=spider_jars.get) if spider_jars else ""
     full_json = {"spider": best_spider, "sites": all_sites, "lives": all_lives, "parses": all_parses}
-    with open(os.path.join(WORK_DIR, "tvbox_full.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(WORK_DIR, "t2.json"), "w", encoding="utf-8") as f:
         json.dump(full_json, f, ensure_ascii=False, indent=2)
 
     # 6. 生成 tvbox_multi.json
@@ -295,7 +295,7 @@ def main():
     other_avail = [x for x in available if x[0] not in pinned_repos]
     multi = {"storeHouse": [{"sourceName": f"[{lat}ms] {name}", "sourceUrl": url}
                             for name, url, lat in pinned_avail + other_avail]}
-    with open(os.path.join(WORK_DIR, "tvbox_multi.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(WORK_DIR, "t3.json"), "w", encoding="utf-8") as f:
         json.dump(multi, f, ensure_ascii=False, indent=2)
 
     # 7. 生成 tvbox.json (简洁版)
@@ -315,7 +315,7 @@ def main():
             "searchable": 1, "quickSearch": 1, "filterable": 0
         })
 
-    with open(os.path.join(WORK_DIR, "tvbox.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(WORK_DIR, "t1.json"), "w", encoding="utf-8") as f:
         json.dump({"spider": "", "sites": collect_sites, "lives": [], "parses": []}, f, ensure_ascii=False, indent=2)
 
     # 8. 保存 sources.txt
