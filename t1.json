@@ -2,17 +2,17 @@
   "spider": "",
   "sites": [
     {
-      "key": "🦚360┃采集",
-      "name": "[37884KB/s|195ms|稳] 🦚360┃采集",
+      "key": "🍏无印",
+      "name": "[6898KB/s|303ms|稳] 🍏无印",
       "type": 1,
-      "api": "https://360zy.com/api.php/provide/vod?",
+      "api": "https://api.wsyzy.net/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "360资源",
-      "name": "[9737KB/s|212ms|稳] 360资源",
+      "key": "360",
+      "name": "[1716KB/s|270ms|稳] 360",
       "type": 1,
       "api": "https://360zy.com/api.php/provide/vod",
       "searchable": 1,
@@ -20,35 +20,17 @@
       "filterable": 0
     },
     {
-      "key": "🎀光速┃采集",
-      "name": "[5224KB/s|187ms|稳] 🎀光速┃采集",
+      "key": "360┃直连",
+      "name": "[1705KB/s|332ms|稳] 360┃直连",
       "type": 1,
-      "api": "http://api.guangsuapi.com/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "豪华资源",
-      "name": "[5104KB/s|232ms|稳] 豪华资源",
-      "type": 1,
-      "api": "https://hhzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "🔞PGX电影",
-      "name": "[3358KB/s|92ms|稳] 🔞PGX电影",
-      "type": 0,
-      "api": "https://www.pgxdy.com/api/xml.php",
+      "api": "https://360zy.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "IK",
-      "name": "[3164KB/s|333ms|稳] IK",
+      "name": "[1457KB/s|662ms|稳] IK",
       "type": 1,
       "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
       "searchable": 1,
@@ -56,8 +38,8 @@
       "filterable": 0
     },
     {
-      "key": "采集视频3",
-      "name": "[3004KB/s|282ms|稳] 采集视频3",
+      "key": "🍏爱坤",
+      "name": "[1396KB/s|297ms|稳] 🍏爱坤",
       "type": 1,
       "api": "https://ikunzyapi.com/api.php/provide/vod",
       "searchable": 1,
@@ -65,28 +47,46 @@
       "filterable": 0
     },
     {
-      "key": "🔞乐播资源",
-      "name": "[732KB/s|564ms|稳] 🔞乐播资源",
+      "key": "🍏魔都",
+      "name": "[1299KB/s|331ms|稳] 🍏魔都",
       "type": 1,
-      "api": "https://lbapi9.com/api.php/provide/vod/",
+      "api": "https://www.moduzy.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🔞乐播",
-      "name": "[721KB/s|524ms|稳] 🔞乐播",
-      "type": 0,
-      "api": "https://lbapi9.com/api.php/provide/vod/at/xml/",
+      "key": "🍏光速",
+      "name": "[938KB/s|138ms|稳] 🍏光速",
+      "type": 1,
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "杏吧资源",
-      "name": "[693KB/s|578ms|稳] 杏吧资源",
+      "key": "🍏360",
+      "name": "[767KB/s|1125ms|稳] 🍏360",
+      "type": 1,
+      "api": "https://360zyzz.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "淫水机",
+      "name": "[761KB/s|1795ms|稳] 淫水机",
       "type": 0,
-      "api": "https://xingba222.com/api.php/provide/vod/at/xml",
+      "api": "https://www.xrbsp.com/api/xml.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "🍏如意",
+      "name": "[654KB/s|1037ms|稳] 🍏如意",
+      "type": 1,
+      "api": "https://cj.rycjapi.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
