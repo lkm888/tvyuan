@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-TVBox 聚合源自动更新（支持色情内容智能分流）
+TVBox 聚合源自动更新（全链路按连接速度/延迟严格排序版）
 产物：
-  - t1.json: 精选健康极速版（前10）
-  - t2.json: 全量健康版
-  - t3.json: 多仓版
-  - t4.json: 成人/色情独立专属版
+  - t1.json: 精选健康极速版（按下载速度严格降序）
+  - t2.json: 全量健康版（测速站置前 + 延迟升序排序）
+  - t3.json: 多仓版（按源响应延迟升序排序）
+  - t4.json: 成人独立版（按源响应延迟升序排序）
 """
 import json, sys, re, subprocess, os, time
 import urllib.parse
@@ -25,18 +25,16 @@ ADULT_KEYWORDS = [
 ]
 
 def is_adult(site_or_url):
-    """智能判定是否为成人站点"""
+    """判定是否为成人站点"""
     if isinstance(site_or_url, dict):
         text = f"{site_or_url.get('name', '')} {site_or_url.get('key', '')} {site_or_url.get('api', '')}"
     else:
         text = str(site_or_url)
     
-    # 1. 中文及拼音特征词匹配
     for kw in ADULT_KEYWORDS:
         if kw.lower() in text.lower():
             return True
             
-    # 2. 域名/参数正则边界匹配 (防止像 David, Have 等正常英文词被误伤)
     if re.search(r'(?i)(?:\b|_|-)(av|adult|sex|xxx|r18|fuli|18\+)(?:\b|_|-|\.|\d)', text):
         return True
     return False
@@ -190,7 +188,7 @@ def probe_task(item):
 
 def main():
     ts = time.strftime('%Y-%m-%d %H:%M:%S')
-    print(f"[{ts}] ⚡ 开始更新（含色情自动分流）...")
+    print(f"[{ts}] ⚡ 开始更新（按连接速度排序）...")
 
     # 1. 抓取源列表
     html = curl("https://tvbox.clbug.com/user.php", timeout=5, max_time=8)
@@ -207,10 +205,12 @@ def main():
         for f in as_completed(futures):
             res = f.result()
             if res[2] < 99999: available.append(res)
+            
+    # 源按连接延迟从小到大排序
     available.sort(key=lambda x: x[2])
-    print(f"  可用源数量: {len(available)} 个")
+    print(f"  可用源数量: {len(available)} 个（延迟区间: {available[0][2]}ms ~ {available[-1][2]}ms）")
 
-    # 3. 合并站点，并进行健康与成人分流
+    # 3. 合并站点与健康分类
     all_sites, adult_sites = [], []
     all_lives, all_parses = [], []
     site_keys, live_keys, parse_keys = set(), set(), set()
@@ -231,14 +231,12 @@ def main():
             if not key or key in site_keys: continue
             site_keys.add(key)
             s["name"] = f"[{lat}ms|{name}] {s.get('name', key)}"
-            s["_lat"] = lat
+            s["_lat"] = lat  # 记录延迟用于后续排序
 
-            # ── 智能分类：识别成人站 ──
             if is_adult(s):
                 adult_sites.append(s)
             else:
                 all_sites.append(s)
-                # 只有健康站才进入测速队列
                 st = s.get("type", -1)
                 api = s.get("api", "")
                 if st in (0, 1) and api.startswith("http") and api not in collect_sources:
@@ -250,8 +248,6 @@ def main():
         for p in (data.get("parses") or []):
             u = p.get("url", "")
             if u and u not in parse_keys: parse_keys.add(u); all_parses.append(p)
-
-    print(f"  识别结果: 健康站点 {len(all_sites)} 个 | 成人站点 {len(adult_sites)} 个")
 
     # 4. 真实播放测速（只测健康站）
     PINNED_APIS = ["suoniapi.com", "360zy.com"]
@@ -270,46 +266,58 @@ def main():
             res = f.result()
             if res: collect_results.append(res)
 
+    # 采集站按真实下载速度排序（速度大优先，首帧小优先）
     collect_results.sort(key=lambda x: (-x[1], x[0]))
 
-    # 置顶索尼与360
-    pinned = [[] for _ in PINNED_APIS]
-    rest = []
-    for item in collect_results:
-        placed = False
-        for i, kw in enumerate(PINNED_APIS):
-            if kw in item[2]:
-                pinned[i].append(item); placed = True; break
-        if not placed:
-            rest.append(item)
-    collect_results = [x for group in pinned for x in group] + rest
+    # 把测速结果回填到 all_sites 中，用于 t2 排序
+    speed_map = {api: (ttfb, speed) for ttfb, speed, api, _ in collect_results}
+    for s in all_sites:
+        api = s.get("api", "")
+        if api in speed_map:
+            s["_speed"] = speed_map[api][1]
+            s["_ttfb"] = speed_map[api][0]
+        else:
+            s["_speed"] = 0
+            s["_ttfb"] = 99999
+
+    # ── 全量健康版（t2.json）速度综合排序 ──
+    # 规则：已测速的高速站排最前(速度降序) -> 其它站按源延迟升序排
+    all_sites.sort(key=lambda s: (
+        0 if s.get("_speed", 0) > 0 else 1,
+        -s.get("_speed", 0),
+        s.get("_ttfb", 99999),
+        s.get("_lat", 99999)
+    ))
+
+    # ── 成人版（t4.json）按源连接延迟升序排序 ──
+    adult_sites.sort(key=lambda s: s.get("_lat", 99999))
 
     best_spider = max(spider_jars, key=spider_jars.get) if spider_jars else ""
 
-    # 清理内部辅助参数
+    # 清理内部临时排序字段
     for s in all_sites + adult_sites:
-        s.pop("_lat", None); s.pop("_speed", None); s.pop("_speed_ttfb", None)
+        s.pop("_lat", None)
+        s.pop("_speed", None)
+        s.pop("_ttfb", None)
 
-    # ── 5. 生成 t2.json (全量健康版，无色情) ──
+    # ── 5. 输出 t2.json (全量版：按速度降序排列) ──
     full_json = {"spider": best_spider, "sites": all_sites, "lives": all_lives, "parses": all_parses}
     with open(os.path.join(WORK_DIR, "t2.json"), "w", encoding="utf-8") as f:
         json.dump(full_json, f, ensure_ascii=False, indent=2)
 
-    # ── 6. 生成 t4.json (成人独立版，色情内容单独存放在这里) ──
+    # ── 6. 输出 t4.json (成人版：按响应延迟升序排列) ──
     adult_json = {"spider": best_spider, "sites": adult_sites, "lives": [], "parses": all_parses}
     with open(os.path.join(WORK_DIR, "t4.json"), "w", encoding="utf-8") as f:
         json.dump(adult_json, f, ensure_ascii=False, indent=2)
 
-    # ── 7. 生成 t3.json (多仓版) ──
-    pinned_repos = {collect_sources[api][0] for api in collect_sources for kw in PINNED_APIS if kw in api}
-    pinned_avail = [x for x in available if x[0] in pinned_repos]
-    other_avail = [x for x in available if x[0] not in pinned_repos]
+    # ── 7. 输出 t3.json (多仓版：按仓库连接延迟升序排列) ──
+    # available 已经在前面排好序（延迟低的在前面）
     multi = {"storeHouse": [{"sourceName": f"[{lat}ms] {name}", "sourceUrl": url}
-                            for name, url, lat in pinned_avail + other_avail]}
+                            for name, url, lat in available]}
     with open(os.path.join(WORK_DIR, "t3.json"), "w", encoding="utf-8") as f:
         json.dump(multi, f, ensure_ascii=False, indent=2)
 
-    # ── 8. 生成 t1.json (精选健康极速版) ──
+    # ── 8. 输出 t1.json (精选版：绝对速度前 10 个站点) ──
     SIMPLE_LIMIT = 10
     collect_sites = []
     for ttfb, speed, api, stype in collect_results[:SIMPLE_LIMIT]:
@@ -329,13 +337,13 @@ def main():
     with open(os.path.join(WORK_DIR, "t1.json"), "w", encoding="utf-8") as f:
         json.dump({"spider": "", "sites": collect_sites, "lives": [], "parses": []}, f, ensure_ascii=False, indent=2)
 
-    # 9. 保存 sources.txt
+    # 9. 输出 sources.txt
     with open(os.path.join(WORK_DIR, "sources.txt"), "w", encoding="utf-8") as f:
         f.write(f"# {ts}\n\n")
         for name, url, lat in available:
             f.write(f"[{lat}ms] {name}\n{url}\n\n")
 
-    print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] ⚡ 生成成功：t1/t2(纯净版)已净化，敏感内容已存入 t4.json！")
+    print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] ⚡ 更新完成！所有文件均已按速度严格排序！")
     return 0
 
 if __name__ == "__main__":
