@@ -3,7 +3,7 @@
   "sites": [
     {
       "key": "🍏无印",
-      "name": "[5590KB/s|348ms|稳] 🍏无印",
+      "name": "[4737KB/s|324ms|稳] 🍏无印",
       "type": 1,
       "api": "https://api.wsyzy.net/api.php/provide/vod/",
       "searchable": 1,
@@ -11,44 +11,35 @@
       "filterable": 0
     },
     {
-      "key": "🍊19",
-      "name": "[4924KB/s|195ms|稳] 🍊19",
+      "key": "🍏速播",
+      "name": "[2254KB/s|238ms|稳] 🍏速播",
       "type": 1,
-      "api": "https://19q.cc/api.php/provide/vod",
+      "api": "https://subocaiji.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍏爱坤",
-      "name": "[1843KB/s|433ms|稳] 🍏爱坤",
+      "key": "🍏红牛",
+      "name": "[2212KB/s|1868ms|稳] 🍏红牛",
       "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍏新浪",
-      "name": "[1481KB/s|219ms|稳] 🍏新浪",
+      "key": "🍏火狐",
+      "name": "[2200KB/s|266ms|稳] 🍏火狐",
       "type": 1,
-      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "🍊极品",
-      "name": "[1439KB/s|564ms|稳] 🍊极品",
-      "type": 1,
-      "api": "https://jipinvip.com/api.php/provide/vod/",
+      "api": "https://hhzyapi.com/api.php/provide/vod/at/json",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "🍏光速",
-      "name": "[1292KB/s|169ms|稳] 🍏光速",
+      "name": "[2138KB/s|178ms|稳] 🍏光速",
       "type": 1,
       "api": "https://api.guangsuapi.com/api.php/provide/vod/",
       "searchable": 1,
@@ -56,37 +47,46 @@
       "filterable": 0
     },
     {
-      "key": "🍏如意",
-      "name": "[1200KB/s|896ms|稳] 🍏如意",
+      "key": "🍏金鹰",
+      "name": "[2042KB/s|1700ms|稳] 🍏金鹰",
       "type": 1,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod",
+      "api": "https://jyzyapi.com/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍊杏吧",
-      "name": "[1183KB/s|420ms|稳] 🍊杏吧",
+      "key": "🍏新浪",
+      "name": "[1975KB/s|228ms|稳] 🍏新浪",
       "type": 1,
-      "api": "https://xingba222.com/api.php/provide/vod",
+      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍊155",
-      "name": "[1160KB/s|353ms|稳] 🍊155",
+      "key": "🍊19",
+      "name": "[1645KB/s|320ms|稳] 🍊19",
       "type": 1,
-      "api": "https://155api.com/api.php/provide/vod/",
+      "api": "https://19q.cc/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍊色逼",
-      "name": "[1081KB/s|452ms|稳] 🍊色逼",
+      "key": "🍊极品",
+      "name": "[1324KB/s|295ms|稳] 🍊极品",
       "type": 1,
-      "api": "https://apilsbzy1.com/api.php/provide/vod/at/json",
+      "api": "https://jipinvip.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "🍊元力",
+      "name": "[1252KB/s|237ms|稳] 🍊元力",
+      "type": 1,
+      "api": "https://yuanlib.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
