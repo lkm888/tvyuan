@@ -2,62 +2,26 @@
   "spider": "",
   "sites": [
     {
-      "key": "杏吧资源",
-      "name": "[1219KB/s|393ms|稳] 杏吧资源",
-      "type": 0,
-      "api": "https://xingba222.com/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "🍏如意",
-      "name": "[1172KB/s|442ms|稳] 🍏如意",
+      "key": "🍏光速",
+      "name": "[1616KB/s|119ms|稳] 🍏光速",
       "type": 1,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod",
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🍏虎牙",
-      "name": "[1119KB/s|273ms|稳] 🍏虎牙",
+      "key": "豪华资源",
+      "name": "[1454KB/s|156ms|稳] 豪华资源",
       "type": 1,
-      "api": "https://www.huyaapi.com/api.php/provide/vod/from/hym3u8/at/json",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "采集视频3",
-      "name": "[1036KB/s|550ms|稳] 采集视频3",
-      "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "IK",
-      "name": "[1027KB/s|547ms|稳] IK",
-      "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "如意资源网",
-      "name": "[761KB/s|974ms|稳] 如意资源网",
-      "type": 0,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/",
+      "api": "https://hhzyapi.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "🎀红牛┃采集",
-      "name": "[729KB/s|1797ms|稳] 🎀红牛┃采集",
+      "name": "[1252KB/s|3331ms|稳] 🎀红牛┃采集",
       "type": 1,
       "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
       "searchable": 1,
@@ -65,17 +29,26 @@
       "filterable": 0
     },
     {
-      "key": "淫水机",
-      "name": "[710KB/s|361ms|稳] 淫水机",
+      "key": "杏吧资源",
+      "name": "[807KB/s|504ms|稳] 杏吧资源",
       "type": 0,
-      "api": "https://www.xrbsp.com/api/xml.php",
+      "api": "https://xingba222.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "如意资源网",
+      "name": "[633KB/s|778ms|稳] 如意资源网",
+      "type": 0,
+      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "茅台资源",
-      "name": "[537KB/s|1128ms|稳] 茅台资源",
+      "name": "[440KB/s|1064ms|中] 茅台资源",
       "type": 1,
       "api": "https://caiji.maotaizy.cc/api.php/provide/vod/at/josn/",
       "searchable": 1,
@@ -83,10 +56,37 @@
       "filterable": 0
     },
     {
-      "key": "🍏樱花",
-      "name": "[437KB/s|668ms|中] 🍏樱花",
+      "key": "影视 • 暴風[直连]",
+      "name": "[189KB/s|1921ms|中] 影视 • 暴風[直连]",
       "type": 1,
-      "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
+      "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "豆瓣资源",
+      "name": "[180KB/s|527ms|中] 豆瓣资源",
+      "type": 1,
+      "api": "https://caiji.dbzy5.com/api.php/provide/vod/at/josn/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "暴风",
+      "name": "[152KB/s|1598ms|中] 暴风",
+      "type": 1,
+      "api": "https://bfzyapi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "影视 • 量子[直连]",
+      "name": "[85KB/s|1176ms|慢] 影视 • 量子[直连]",
+      "type": 1,
+      "api": "https://cj.lziapi.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
