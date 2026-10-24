@@ -3,7 +3,7 @@
   "sites": [
     {
       "key": "🎀红牛┃采集",
-      "name": "[5196KB/s|1631ms|稳] 🎀红牛┃采集",
+      "name": "[4106KB/s|1571ms|稳] 🎀红牛┃采集",
       "type": 1,
       "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
       "searchable": 1,
@@ -11,17 +11,26 @@
       "filterable": 0
     },
     {
-      "key": "豪华资源",
-      "name": "[2482KB/s|202ms|稳] 豪华资源",
+      "key": "🍏虎牙",
+      "name": "[2939KB/s|628ms|稳] 🍏虎牙",
       "type": 1,
-      "api": "https://hhzyapi.com/api.php/provide/vod",
+      "api": "https://www.huyaapi.com/api.php/provide/vod/from/hym3u8/at/json",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "aqy",
+      "name": "[1738KB/s|1630ms|稳] aqy",
+      "type": 0,
+      "api": "https://www.iqiyizyapi.com/api.php/provide/vod/at/xml/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "豆瓣资源",
-      "name": "[1850KB/s|1078ms|稳] 豆瓣资源",
+      "name": "[1113KB/s|895ms|稳] 豆瓣资源",
       "type": 1,
       "api": "https://caiji.dbzy5.com/api.php/provide/vod/at/josn/",
       "searchable": 1,
@@ -29,17 +38,26 @@
       "filterable": 0
     },
     {
-      "key": "淫水机资源(已修复)",
-      "name": "[754KB/s|423ms|稳] 淫水机资源(已修复)",
+      "key": "如意资源网",
+      "name": "[1022KB/s|786ms|稳] 如意资源网",
       "type": 0,
-      "api": "https://www.xrbsp.com/api/xml.php",
+      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "美少女",
+      "name": "[899KB/s|262ms|稳] 美少女",
+      "type": 0,
+      "api": "https://www.msnii.com/api/xml.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "杏吧资源",
-      "name": "[659KB/s|637ms|稳] 杏吧资源",
+      "name": "[840KB/s|576ms|稳] 杏吧资源",
       "type": 0,
       "api": "https://xingba222.com/api.php/provide/vod/at/xml",
       "searchable": 1,
@@ -47,46 +65,28 @@
       "filterable": 0
     },
     {
-      "key": "茅台资源",
-      "name": "[348KB/s|1598ms|中] 茅台资源",
+      "key": "🍏如意",
+      "name": "[666KB/s|403ms|稳] 🍏如意",
       "type": 1,
-      "api": "https://caiji.maotaizy.cc/api.php/provide/vod/at/josn/",
+      "api": "https://cj.rycjapi.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🦚360┃采集",
-      "name": "[288KB/s|729ms|中] 🦚360┃采集",
+      "key": "🍏樱花",
+      "name": "[645KB/s|410ms|稳] 🍏樱花",
       "type": 1,
-      "api": "https://360zy.com/api.php/provide/vod?",
+      "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "💥丨爱看2k丨微广",
-      "name": "[283KB/s|212ms|中] 💥丨爱看2k丨微广",
+      "key": "🍏茅台",
+      "name": "[590KB/s|739ms|稳] 🍏茅台",
       "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "360资源",
-      "name": "[276KB/s|688ms|中] 360资源",
-      "type": 1,
-      "api": "https://360zy.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "采集视频3",
-      "name": "[210KB/s|238ms|中] 采集视频3",
-      "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod",
+      "api": "https://caiji.maotaizy.cc/api.php/provide/vod/from/mtm3u8/at/josn",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
