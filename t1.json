@@ -2,35 +2,8 @@
   "spider": "",
   "sites": [
     {
-      "key": "如意资源网",
-      "name": "[2429KB/s|762ms|稳] 如意资源网",
-      "type": 0,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "🎀红牛┃采集",
-      "name": "[2306KB/s|2224ms|稳] 🎀红牛┃采集",
-      "type": 1,
-      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "采集视频3",
-      "name": "[1420KB/s|249ms|稳] 采集视频3",
-      "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
       "key": "IK",
-      "name": "[1331KB/s|271ms|稳] IK",
+      "name": "[2483KB/s|464ms|稳] IK",
       "type": 1,
       "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
       "searchable": 1,
@@ -38,46 +11,82 @@
       "filterable": 0
     },
     {
-      "key": "杏吧资源",
-      "name": "[1034KB/s|496ms|稳] 杏吧资源",
-      "type": 0,
-      "api": "https://xingba222.com/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "🔞鲨鱼影视",
-      "name": "[991KB/s|458ms|稳] 🔞鲨鱼影视",
-      "type": 0,
-      "api": "https://shayuapi.com/api.php/Seacms/vod/at/xml/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "aqy",
-      "name": "[823KB/s|608ms|稳] aqy",
-      "type": 0,
-      "api": "https://www.iqiyizyapi.com/api.php/provide/vod/at/xml/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "暴风",
-      "name": "[148KB/s|1173ms|中] 暴风",
+      "key": "金鹰资源",
+      "name": "[2480KB/s|1088ms|稳] 金鹰资源",
       "type": 1,
-      "api": "https://bfzyapi.com/api.php/provide/vod",
+      "api": "https://jyzyapi.com/provide/vod/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "影视 • 暴風[直连]",
-      "name": "[96KB/s|982ms|慢] 影视 • 暴風[直连]",
+      "key": "360资源",
+      "name": "[849KB/s|767ms|稳] 360资源",
       "type": 1,
-      "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
+      "api": "https://360zy.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "🦚360┃采集",
+      "name": "[837KB/s|769ms|稳] 🦚360┃采集",
+      "type": 1,
+      "api": "https://360zy.com/api.php/provide/vod?",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "360┃资源",
+      "name": "[826KB/s|784ms|稳] 360┃资源",
+      "type": 1,
+      "api": "https://360zy.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "360资源",
+      "name": "[817KB/s|787ms|稳] 360资源",
+      "type": 1,
+      "api": "https://360zy.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "爱奇艺资源",
+      "name": "[530KB/s|1038ms|稳] 爱奇艺资源",
+      "type": 1,
+      "api": "https://iqiyizyapi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "暴风资源",
+      "name": "[300KB/s|1276ms|中] 暴风资源",
+      "type": 1,
+      "api": "https://bfzyapi.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "360资源ZZ",
+      "name": "[298KB/s|1008ms|中] 360资源ZZ",
+      "type": 1,
+      "api": "https://360zyzz.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "暴风资源2",
+      "name": "[294KB/s|914ms|中] 暴风资源2",
+      "type": 1,
+      "api": "http://bf.xoxowin86cisyap.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
