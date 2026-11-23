@@ -3,7 +3,7 @@
   "sites": [
     {
       "key": "🎀红牛┃采集",
-      "name": "[4926KB/s|1645ms|稳] 🎀红牛┃采集",
+      "name": "[10576KB/s|1344ms|稳] 🎀红牛┃采集",
       "type": 1,
       "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
       "searchable": 1,
@@ -12,7 +12,7 @@
     },
     {
       "key": "aqy",
-      "name": "[2709KB/s|1075ms|稳] aqy",
+      "name": "[1708KB/s|492ms|稳] aqy",
       "type": 0,
       "api": "https://www.iqiyizyapi.com/api.php/provide/vod/at/xml/",
       "searchable": 1,
@@ -20,17 +20,8 @@
       "filterable": 0
     },
     {
-      "key": "💥丨爱看2k丨微广",
-      "name": "[2705KB/s|275ms|稳] 💥丨爱看2k丨微广",
-      "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
       "key": "采集视频3",
-      "name": "[2650KB/s|258ms|稳] 采集视频3",
+      "name": "[1045KB/s|302ms|稳] 采集视频3",
       "type": 1,
       "api": "https://ikunzyapi.com/api.php/provide/vod",
       "searchable": 1,
@@ -38,26 +29,17 @@
       "filterable": 0
     },
     {
-      "key": "如意资源网",
-      "name": "[1936KB/s|823ms|稳] 如意资源网",
-      "type": 0,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "杏吧资源",
-      "name": "[977KB/s|653ms|稳] 杏吧资源",
-      "type": 0,
-      "api": "https://xingba222.com/api.php/provide/vod/at/xml",
+      "key": "💥丨爱看2k丨微广",
+      "name": "[1019KB/s|373ms|稳] 💥丨爱看2k丨微广",
+      "type": 1,
+      "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
       "key": "🔞鲨鱼影视",
-      "name": "[923KB/s|558ms|稳] 🔞鲨鱼影视",
+      "name": "[828KB/s|521ms|稳] 🔞鲨鱼影视",
       "type": 0,
       "api": "https://shayuapi.com/api.php/Seacms/vod/at/xml/",
       "searchable": 1,
@@ -65,8 +47,17 @@
       "filterable": 0
     },
     {
+      "key": "杏吧资源",
+      "name": "[815KB/s|634ms|稳] 杏吧资源",
+      "type": 0,
+      "api": "https://xingba222.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
       "key": "360",
-      "name": "[241KB/s|985ms|中] 360",
+      "name": "[316KB/s|1044ms|中] 360",
       "type": 1,
       "api": "https://360zy.com/api.php/provide/vod",
       "searchable": 1,
@@ -74,8 +65,17 @@
       "filterable": 0
     },
     {
+      "key": "360资源",
+      "name": "[316KB/s|1459ms|中] 360资源",
+      "type": 1,
+      "api": "https://360zy.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
       "key": "🦚360┃采集",
-      "name": "[240KB/s|893ms|中] 🦚360┃采集",
+      "name": "[312KB/s|1044ms|中] 🦚360┃采集",
       "type": 1,
       "api": "https://360zy.com/api.php/provide/vod?",
       "searchable": 1,
@@ -84,7 +84,7 @@
     },
     {
       "key": "360┃直连",
-      "name": "[237KB/s|917ms|中] 360┃直连",
+      "name": "[298KB/s|1444ms|中] 360┃直连",
       "type": 1,
       "api": "https://360zy.com/api.php/provide/vod/",
       "searchable": 1,
