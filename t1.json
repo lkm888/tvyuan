@@ -2,26 +2,26 @@
   "spider": "",
   "sites": [
     {
-      "key": "如意资源网",
-      "name": "[2496KB/s|827ms|稳] 如意资源网",
+      "key": "金鹰影视",
+      "name": "[3208KB/s|1566ms|稳] 金鹰影视",
       "type": 0,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml/",
+      "api": "https://jyzyapi.com/provide/vod/from/jinyingm3u8/at/xml/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "aqy",
-      "name": "[1544KB/s|667ms|稳] aqy",
-      "type": 0,
-      "api": "https://www.iqiyizyapi.com/api.php/provide/vod/at/xml/",
+      "key": "爱奇艺资源",
+      "name": "[2268KB/s|635ms|稳] 爱奇艺资源",
+      "type": 1,
+      "api": "https://iqiyizyapi.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "淫水机资源(已修复)",
-      "name": "[1269KB/s|273ms|稳] 淫水机资源(已修复)",
+      "key": "淫水机",
+      "name": "[1629KB/s|179ms|稳] 淫水机",
       "type": 0,
       "api": "https://www.xrbsp.com/api/xml.php",
       "searchable": 1,
@@ -29,17 +29,17 @@
       "filterable": 0
     },
     {
-      "key": "🎀红牛┃采集",
-      "name": "[1115KB/s|1566ms|稳] 🎀红牛┃采集",
-      "type": 1,
-      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "key": "iKun资源",
+      "name": "[1576KB/s|482ms|稳] iKun资源",
+      "type": 0,
+      "api": "https://ikunzyapi.com/api.php/provide/vod/at/xml",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "香奶儿资源(已修复)",
-      "name": "[1114KB/s|387ms|稳] 香奶儿资源(已修复)",
+      "key": "香奶儿",
+      "name": "[1529KB/s|223ms|稳] 香奶儿",
       "type": 0,
       "api": "https://www.gdlsp.com/api/xml.php",
       "searchable": 1,
@@ -47,35 +47,17 @@
       "filterable": 0
     },
     {
-      "key": "🔞PGX电影",
-      "name": "[1095KB/s|299ms|稳] 🔞PGX电影",
-      "type": 0,
-      "api": "https://www.pgxdy.com/api/xml.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "采集视频3",
-      "name": "[1064KB/s|327ms|稳] 采集视频3",
+      "key": "🚶‍♂️豪华┃影视",
+      "name": "[1356KB/s|262ms|稳] 🚶‍♂️豪华┃影视",
       "type": 1,
-      "api": "https://ikunzyapi.com/api.php/provide/vod",
+      "api": "https://hhzyapi.com/api.php/provide/vod/?ac=list",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
     },
     {
-      "key": "🔞鲨鱼影视",
-      "name": "[1032KB/s|486ms|稳] 🔞鲨鱼影视",
-      "type": 0,
-      "api": "https://shayuapi.com/api.php/Seacms/vod/at/xml/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
-      "key": "美少女资源(已修复)",
-      "name": "[661KB/s|277ms|稳] 美少女资源(已修复)",
+      "key": "美少女",
+      "name": "[977KB/s|215ms|稳] 美少女",
       "type": 0,
       "api": "https://www.msnii.com/api/xml.php",
       "searchable": 1,
@@ -84,9 +66,27 @@
     },
     {
       "key": "影视 • 量子[直连]",
-      "name": "[526KB/s|764ms|稳] 影视 • 量子[直连]",
+      "name": "[356KB/s|618ms|中] 影视 • 量子[直连]",
       "type": 1,
       "api": "https://cj.lziapi.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "量子影视",
+      "name": "[342KB/s|702ms|中] 量子影视",
+      "type": 0,
+      "api": "https://cj.lziapi.com/api.php/provide/vod/from/lzm3u8/at/xml/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "360资源ZZ",
+      "name": "[228KB/s|1149ms|中] 360资源ZZ",
+      "type": 1,
+      "api": "https://360zyzz.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
